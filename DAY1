@@ -1,1 +1,167 @@
 
+#DAY2
+Yararlı Siteler:
+
+Kavramlar:             
+	1. Maker
+	2. DIY
+	3. Hack
+	4. IOT
+Yararlı Siteler:
+	1. Instructables.com
+	2. Teknolo.com
+	3. Venturebeat.com
+	4. Webrazzi.com
+	5. Techcrunch.com
+Crowdfunding:
+	1. Kickstarter.com
+  
+UYGULAMA NOTLARIM
+
+1)LED UYGULAMASI
+Bu uygulamamızda ise RGB Led üzerinde duracağız.
+
+Öncelikle RGB Led'i standart Ledlerden farklı olarak 3 renk Ledin birleştirilmiş hali olarak düşünebiliriz.
+Kısaltma hali olan RGB'den de anlaşılacağı üzere, bu üç renk Red, Green ve Blue yani kırmızı, yeşil ve maviyi ifade ediyor. Bu Led bu üç rengin farklı oranlarda karıştırılmasını sağladığımızda çok daha farklı renkler elde etmemizi sağlıyor.
+
+Bağlantıları nasıl yapacağımıza gelecek olursak ben direkt dijital sinyal çıkışımızdan ledin bacaklarına bağladım. Eğer uygulamayı görmek istiyorsanız sizde böyle yapabilirsiniz, lakin uzun süreli bir uygulama yapacaksanız sinyal ile ledin bacakları arasına direnç bağlamanız gerekmektedir.Bunu ledin ömrü ve daha hassas sonuçlar alabilmek için yapmanız gerekiyor. Direnç değerlerine gelecek olursak Kırmızı bacak için 330 ohm diğer iki bacak için (Yeşil ve Mavi) 180 ohm kullanmanın ideal olduğunu söylüyor yabancı kaynaklar.
+
+2)RGB LED UYGULAMASI
+
+//RGB LED Kullanımı
+
+#define YESIL 3
+#define MAVI 5
+#define KIRMIZI 6
+#define delayTime 20
+
+void setup() {
+
+  pinMode(YESIL, OUTPUT);
+  pinMode(MAVI, OUTPUT);
+  pinMode(KIRMIZI, OUTPUT);
+  digitalWrite(YESIL, HIGH);
+  digitalWrite(MAVI, HIGH);
+  digitalWrite(KIRMIZI, HIGH);
+}
+
+int KIRMIZIDeger;
+int MAVIDeger;
+int YESILDeger;
+
+void loop() {
+
+  int KIRMIZIDeger = 255;
+  int MAVIDeger = 0;
+  int YESILDeger = 0;
+  for( int i = 0 ; i < 255 ; i += 1 ){
+    YESILDeger += 1;
+    KIRMIZIDeger -= 1;
+    analogWrite( YESIL, 255 - YESILDeger );
+    analogWrite(KIRMIZI, 255 - KIRMIZIDeger );
+
+    delay( delayTime );
+  }
+
+  KIRMIZIDeger = 0;
+  MAVIDeger = 0;
+  YESILDeger = 255;
+  for( int i = 0 ; i < 255 ; i += 1 ){
+    MAVIDeger += 1;
+    YESILDeger -= 1;
+    analogWrite( MAVI, 255 - MAVIDeger );
+    analogWrite( YESIL, 255 - YESILDeger );
+
+    delay( delayTime );
+  }
+
+  KIRMIZIDeger = 0;
+  MAVIDeger = 255;
+  YESILDeger = 0;
+  for( int i = 0 ; i < 255 ; i += 1 ){
+    KIRMIZIDeger += 1;
+    MAVIDeger -= 1;
+    analogWrite( KIRMIZI, 255 - KIRMIZIDeger );
+    analogWrite( MAVI, 255 - MAVIDeger );
+
+    delay( delayTime );
+  }
+}
+
+//RGB RANDOM LED UYGULAMASI
+int led_blue=3;
+int led_green=5;
+int led_red=6;
+int redrandom;
+int greenrandom;
+int bluerandom;
+
+void setup() {
+
+  pinMode(led_blue, OUTPUT);
+  pinMode(led_green, OUTPUT);
+  pinMode(led_red, OUTPUT);
+
+}
+void loop() {
+  
+redrandom= random(0,256);
+greenrandom= random(0,256);
+bluerandom= random(0,256);
+
+analogWrite(led_red,redrandom);
+analogWrite(led_green,greenrandom);
+analogWrite(led_blue,bluerandom);
+delay(1000);
+ 
+}
+
+// RGB LED (ortak anot rgb için)
+
+int led_blue=3;
+int led_green=5;
+int led_red=6;
+Int t=1000;
+void setup() {
+
+  pinMode(led_blue, OUTPUT);
+  pinMode(led_green, OUTPUT);
+  pinMode(led_red, OUTPUT);
+
+}
+void loop() {
+
+digitalWrite(led_blue, HIGH);
+digitalWrite(led_green, HIGH);
+digitalWrite(led_red, HIGH);
+delay(t);
+digitalWrite(led_blue, HIGH);
+digitalWrite(led_green, HIGH);
+digitalWrite(led_red, HIGH);delay(t);
+digitalWrite(led_blue, HIGH);
+digitalWrite(led_green, HIGH);
+digitalWrite(led_red, HIGH);
+delay(t);
+
+
+
+2)7 SEGMENT DİSPLAY KULLANIMI
+
+7 segment displayler ortak anotlu ve ortak katotlu olmak üzere ikiye ayrılıyorlar. Peki nedir 
+Hemen açıklayayım, pin sayısından tasarruf etmek için 7 segment displaylerimizde 7 segment ve 1 nokta dışında 2 tane ortak pin konmuş durumda. 8 pin ile 8 kısmı kontrol ederken ortak kısımlar ile dörder pinin çıkışını sağlayabiliyoruz. Yani diyelim ki siz ekrandaki tüm kısımları yakmak istiyorsunuz normalde 8 giriş 8 çıkış 16 pin olması gerekirken çıkış pinleri 2 ye indirgendiği için 8 giriş 2 çıkış toplamda 10 pini bağlamanız yeterli oluyor.
+
+ Ortak anot dediğimiz bu ortak pinlerin VCC, ortak katot dediğimiz ise bu ortak pinlerin GND olmasıdır. Örneğin siz ortak anotta 1 yazmak için b ve c pinlerini gnd ye bağlarken iki ortak anotunuzu da 5V a bağlamak zorundasınız. Oysa ortak katot olsaydı ekrana 1 yazabilmek için b ve c pinlerini 5V a iki ortak katotunuzu ise GND a bağlamak zorundasınız. Benim tavsiyem bu devrede 220 ohm direnç kullanmanız. Şimdi gelin basitçe 0’dan 9’a kadar 7 Segment Displayimize sayıları yazdıralım arkadaşlar…
+İhtiyacınız olan şeyler:
+
+1 Adet Arduino Uno
+1 Adet Breadboard
+1 Adet 7 Segment Display
+2 Adet 220 Ohm Direnç
+Jumper Kablolar
+
+Eğer ortak anot değil ortak katot kullanıyor olsaydım devrede yapacağım tek değişiklik 5V pinimi çıkarıp GND ya bağlamak olacaktı.
+Ortak katot için devre:
+
+Devredeki farklılık bu kadarken kodda ki farklılık ise şöyle arkadaşlar ben ortak anot kullandığım için yanmasını istediğim kısımları LOW yani 0 yapıyorum oysa ortak katot kullanan arkadaşlar yanmasını istediği kısımları HIGH yani 1 yapmalılar…
+Ben ortak anot için kodu paylaşıyorum. Ortak katot kullanan arkadaşlar tüm HIGH ları LOW tüm LOW ları HIGH yaptıkları taktirde onlarda da sorunsuz çalışacaktır.
+
