@@ -1,1 +1,132 @@
 
+#DAY 2
+
+    1)Buton Uygulaması:
+
+  ->void setup() {
+
+Serial.begin(9600);
+
+pinMode(2,INPUT);
+}
+
+void loop() {
+
+boolean butonabasildi;
+
+butonabasildi= digitalRead(2);
+
+if(butonabasildi==true)
+
+Serial.println("Butona Basildi");
+
+}
+
+    2)Potansiyometre Uygulaması
+    
+   ->int pot=A0;
+void setup() {
+  
+Serial.begin(9600);
+pinMode(A0,INPUT);
+}
+
+void loop() {
+ 
+ int oku= analogRead(pot);
+ float gerilim=((5.0/1023.0)*oku);
+Serial.print(gerilim);
+Serial.println("volt");
+
+delay(10);
+
+
+}
+
+    3) lM35 KULLANIMI=>
+    
+  float gerilim;
+float sicaklik;
+int lm35=A0;
+void setup() {
+Serial.begin(9600);
+
+}
+
+void loop() {
+  // put your main code here, to run repeatedly:
+gerilim=analogRead(lm35);
+gerilim=((gerilim/1024)*5000);
+sicaklik=(gerilim/10);
+Serial.print("Sicaklik Degeri= ");
+Serial.print(sicaklik);
+Serial.println(" Derece");
+delay(500);
+
+}
+
+
+    4)LDR KULLANIMI:
+    
+    ->int pot=A0;
+int ldr=A0;
+void setup() {
+  
+Serial.begin(9600);
+pinMode(A0,INPUT);
+}
+
+void loop() {
+ 
+ int oku= analogRead(ldr);
+ float gerilim=((5.0/1023.0)*oku);
+Serial.print(gerilim);
+Serial.println("volt");
+
+delay(10);
+}
+
+
+    5)Ultrasonic Sensör Uygulaması:
+    
+   // PulseIn fonksiyonu kullanırız. (10ms-200sn arası çalışır)        
+   //mesafe=sure/2)/29.1)
+   
+   ->
+   int trigPin=8; 
+int echoPin=9;
+int buzzer=2;
+float mesafe;
+float sure;   
+
+void setup() {
+ Serial.begin(9600);
+  pinMode(trigPin,OUTPUT);
+ pinMode(echoPin,INPUT);
+ pinMode(buzzer,OUTPUT);
+ 
+}
+
+void loop() {
+digitalWrite(trigPin,HIGH);
+delayMicroseconds(1000);
+digitalWrite(echoPin,LOW);
+delayMicroseconds(1000);
+sure= pulseIn(echoPin,HIGH);
+mesafe= ((sure/2)/29.1);
+Serial.print("Cisme olan Uzaklik=> ");
+Serial.print(mesafe);
+Serial.println(" cm");
+Serial.println("--------");
+delay(100);
+ if(mesafe >=200 || mesafe<=0)
+ {
+   digitalWrite(buzzer,HIGH);
+   Serial.println("Dikkat!");
+ }
+ else{
+   Serial.print(mesafe);
+   delay(100);
+ }
+ }
+ 
